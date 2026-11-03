@@ -99,11 +99,11 @@
             font-weight: 600;
             color: #007aff;
             background: #eef4ff;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-radius: 6px;
             margin-bottom: 10px;
             border: 1px solid #d0e1fd;
-            line-height: 1.5;
+            line-height: 1.6;
         }
         .result-content {
             font-size: 14px;
@@ -135,7 +135,7 @@
 <body>
 
 <div class="container">
-    <h1>💰 모임 스마트 정산 계산기 -고니제작-</h1>
+    <h1>💰 모임 스마트 정산 계산기 -고니-</h1>
     
     <div class="input-group">
         <label for="totalAmount">총 결제 금액 (원)</label>
@@ -189,7 +189,6 @@ function calculate() {
     const males = parseInt(document.getElementById('maleCount').value) || 0;
     const females = parseInt(document.getElementById('femaleCount').value) || 0;
     
-    // 퍼센트 입력값(예: 100, 60)을 가중치 계수(1.0, 0.6)로 자동 변환
     const maleInputWeight = parseFloat(document.getElementById('maleWeight').value) || 100;
     const femaleInputWeight = parseFloat(document.getElementById('femaleWeight').value) || 60;
     const maleWeight = maleInputWeight / 100;
@@ -239,16 +238,21 @@ function calculate() {
         }
     }
 
-    // 그룹별 총액 및 최종 총액 계산
+    // 그룹별 총액 계산
     const maleTotalSum = maleRounded * males;
     const femaleTotalSum = femaleRounded * females;
     const calculatedTotal = maleTotalSum + femaleTotalSum;
 
-    // 검증 상태 메시지 구성
+    // 검증 상태 메시지 구성 ("인원 × 1인당금액 = 총액" 형식)
     let statusText = `✅ 총액 검증 완료<br>`;
-    statusText += `• 남성합계: ${maleTotalSum.toLocaleString()}원 (${males}명)<br>`;
-    statusText += `• 여성합계: ${femaleTotalSum.toLocaleString()}원 (${females}명)<br>`;
-    statusText += `• 최종총액: ${calculatedTotal.toLocaleString()}원 (일치)`;
+    if (males > 0) {
+        statusText += `• 남자: ${males}명 × ${Math.round(maleRounded).toLocaleString()}원 = ${maleTotalSum.toLocaleString()}원<br>`;
+    }
+    if (females > 0) {
+        statusText += `• 여자: ${females}명 × ${Math.round(femaleRounded).toLocaleString()}원 = ${femaleTotalSum.toLocaleString()}원<br>`;
+    }
+    statusText += `• 최종 합계: ${calculatedTotal.toLocaleString()}원 (일치)`;
+    
     document.getElementById('checkStatus').innerHTML = statusText;
 
     const totalPeople = males + females;
