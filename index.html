@@ -199,7 +199,6 @@ const unitCost = totalAmount / totalWeights;
 const maleRaw = unitCost * maleWeight;
 const femaleRaw = unitCost * femaleWeight;
 
-// 반올림 함수
 function roundBy(val, unit) {
 return Math.round(val / unit) * unit;
 }
@@ -207,11 +206,9 @@ return Math.round(val / unit) * unit;
 let maleRounded = roundBy(maleRaw, roundUnit);
 let femaleRounded = roundBy(femaleRaw, roundUnit);
 
-// 총액 맞춤 (차액 보정)
 let currentSum = (maleRounded * males) + (femaleRounded * females);
 let diff = totalAmount - currentSum;
 
-// 차액이 발생한 경우 남성 인원에게 우선 보정, 없으면 여성에게 보정
 if (diff !== 0) {
 if (males > 0) {
 maleRounded += diff / males;
@@ -238,9 +235,9 @@ document.getElementById('resultBox').style.display = 'block';
 function copyToClipboard() {
 const text = document.getElementById('resultText').innerText;
 navigator.clipboard.writeText(text).then(() => {
-alert('정산 공지 문구가 복사되었습니다! 카카오톡에 붙여넣어 보세요.');
+alert('정산 공지 문구가 복사되었습니다!');
 }).catch(err => {
-alert('복사에 실패했습니다. 직접 드래그해서 복사해주세요.');
+alert('복사에 실패했습니다. 직접 복사해주세요.');
 });
 }
 </script>
