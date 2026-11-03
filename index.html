@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>모임 n분의 1 스마트 정산 계산기-고니제작-</title>
+    <title>모임 n분의 1 스마트 고니 정산 계산기</title>
     <style>
         * {
             box-sizing: border-box;
@@ -206,14 +206,20 @@ function calculate() {
     let maleRounded = roundBy(maleRaw, roundUnit);
     let femaleRounded = roundBy(femaleRaw, roundUnit);
 
+    // 총액 오차 보정 (100원 단위 반올림 유지)
     let currentSum = (maleRounded * males) + (femaleRounded * females);
     let diff = totalAmount - currentSum;
 
     if (diff !== 0) {
         if (males > 0) {
-            maleRounded += diff / males;
+            // 차액을 남성 인원에게 100원 단위씩 배분
+            let adjustmentPerPerson = Math.round((diff / males) / roundUnit) * roundUnit;
+            if (adjustmentPerPerson === 0) adjustmentPerPerson = (diff > 0 ? roundUnit : -roundUnit);
+            maleRounded += adjustmentPerPerson;
         } else if (females > 0) {
-            femaleRounded += diff / females;
+            let adjustmentPerPerson = Math.round((diff / females) / roundUnit) * roundUnit;
+            if (adjustmentPerPerson === 0) adjustmentPerPerson = (diff > 0 ? roundUnit : -roundUnit);
+            femaleRounded += adjustmentPerPerson;
         }
     }
 
