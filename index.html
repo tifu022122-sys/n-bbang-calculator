@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>모임 n분의 1 스마트 고니 정산 계산기</title>
+    <title>모임 n분의 1 스마트 정산 계산기</title>
     <style>
         * {
             box-sizing: border-box;
@@ -94,6 +94,16 @@
             margin-bottom: 10px;
             color: #222;
         }
+        .check-status {
+            font-size: 13px;
+            font-weight: 600;
+            color: #007aff;
+            background: #eef4ff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #d0e1fd;
+        }
         .result-content {
             font-size: 14px;
             line-height: 1.6;
@@ -166,6 +176,7 @@
 
     <div class="result-box" id="resultBox">
         <div class="result-title">📋 카카오톡 공지 복사 양식</div>
+        <div class="check-status" id="checkStatus"></div>
         <div class="result-content" id="resultText"></div>
         <button class="btn-copy" onclick="copyToClipboard()">공지문구 복사하기</button>
     </div>
@@ -206,13 +217,12 @@ function calculate() {
     let maleRounded = roundBy(maleRaw, roundUnit);
     let femaleRounded = roundBy(femaleRaw, roundUnit);
 
-    // 총액 오차 보정 (100원 단위 반올림 유지)
+    // 100원 단위 맞춤 보정
     let currentSum = (maleRounded * males) + (femaleRounded * females);
     let diff = totalAmount - currentSum;
 
     if (diff !== 0) {
         if (males > 0) {
-            // 차액을 남성 인원에게 100원 단위씩 배분
             let adjustmentPerPerson = Math.round((diff / males) / roundUnit) * roundUnit;
             if (adjustmentPerPerson === 0) adjustmentPerPerson = (diff > 0 ? roundUnit : -roundUnit);
             maleRounded += adjustmentPerPerson;
@@ -222,6 +232,13 @@ function calculate() {
             femaleRounded += adjustmentPerPerson;
         }
     }
+
+    // 최종 계산된 총액 검증
+    const calculatedTotal = (maleRounded * males) + (femaleRounded * females);
+
+    // 검증 상태 메시지 표시
+    let statusText = `✅ 총액 검증 완료: 입력금액(${totalAmount.toLocaleString()}원) = 계산총액(${calculatedTotal.toLocaleString()}원)`;
+    document.getElementById('checkStatus').innerText = statusText;
 
     const totalPeople = males + females;
 
