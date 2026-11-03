@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>모임 n분의 1 스마트 정산 계산기</title>
+    <title>모임 정산 계산기 -고니제작-</title>
     <style>
         * {
             box-sizing: border-box;
@@ -32,8 +32,25 @@
             font-size: 20px;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 6px;
             color: #1a1a1a;
+        }
+        .flirting-subtitle {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ff4757;
+            background-color: #ffeaa7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 0 auto 20px auto;
+            width: fit-content;
+            box-shadow: 0 2px 8px rgba(255, 71, 87, 0.15);
+        }
+        .header-box {
+            text-align: center;
+            margin-bottom: 16px;
         }
         .input-group {
             margin-bottom: 16px;
@@ -135,11 +152,14 @@
 <body>
 
 <div class="container">
-    <h1>💰 모임 스마트 정산 계산기 -고니-</h1>
+    <div class="header-box">
+        <h1>💰 모임 정산 계산기 -고니제작-</h1>
+        <div class="flirting-subtitle">💖 여자벙비를 내주는건 멋진 플러팅~!!</div>
+    </div>
     
     <div class="input-group">
         <label for="totalAmount">총 결제 금액 (원)</label>
-        <input type="number" id="totalAmount" placeholder="금액 입력">
+        <input type="number" id="totalAmount" placeholder="0">
     </div>
 
     <div class="row">
